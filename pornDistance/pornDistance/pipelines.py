@@ -8,5 +8,4 @@
 
 class PorndistancePipeline(object):
     def process_item(self, item, spider):
-    	print("This is the item " + item + " and this is its depth " + item['depth'])
         return item

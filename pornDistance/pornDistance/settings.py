@@ -37,7 +37,9 @@ REDIRECT_MAX_TIMES = 5
 EXTENSIONS = {
 	'scrapy.contrib.closespider.CloseSpider' : 35
 }
-CLOSESPIDER_PAGECOUNT = 750
+CLOSESPIDER_PAGECOUNT = 2500
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pornDistance (+http://www.yourdomain.com)'
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'
+
+

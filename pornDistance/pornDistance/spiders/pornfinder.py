@@ -7,7 +7,7 @@ import re
 
 class pornSpider(CrawlSpider):
 	name = 'porn_finder'
-	banned_frags = ['facebook','twitter','rackspace','linkedin','addictivetips','lifehacker','crunchbase']
+	banned_frags = ['facebook','twitter','rackspace','linkedin','addictivetips','lifehacker','crunchbase','microsoft','youtube']
 	porn_urls = ['youporn','redtube','xxvideos','xx','fuck','sex','pornhub','xxhamster','hamster','tube8','tube','porn','lube','cunt','booty','nude','sluts','xvideos','slut','anal','bitch','whore','fap']
 	
 	def __init__(self, base_url, *args, **kwargs):
@@ -30,8 +30,9 @@ class pornSpider(CrawlSpider):
 		return link
 
 	def is_porn(self, response):
+		score = 0
 		for keyword in pornSpider.porn_urls:
-			if keyword in response.url.lower() and 'youtube' not in response.url.lower():
+			if keyword in response.url.lower():
 				return True
 		return False
 
@@ -45,22 +46,3 @@ class pornSpider(CrawlSpider):
 			if follow:
 				other_links.append(element)
 		return other_links
-
-					
-					
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
