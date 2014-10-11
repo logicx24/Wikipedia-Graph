@@ -14,3 +14,4 @@ class FoundLink(scrapy.Item):
     link = scrapy.Field()
     is_porn = scrapy.Field()
     depth = scrapy.Field()
+    previous_url = scrapy.Field()

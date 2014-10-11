@@ -4,6 +4,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
 from pornDistance.items import FoundLink
 import re
+from scrapy.http import Request
 
 class pornSpider(CrawlSpider):
 	name = 'porn_finder'
@@ -15,8 +16,9 @@ class pornSpider(CrawlSpider):
 		self.start_urls = []
 		self.start_urls.append(self.base_url)
 		self._compile_rules()
+		
 		self.rules = (
-		Rule(LinkExtractor(allow=()), callback=self.parse_item, process_links=self.filtration, follow=True),
+			Rule(LinkExtractor(deny=pornSpider.banned_frags), callback=self.parse_item, follow=True),
 		)
 		super(pornSpider, self).__init__(*args, **kwargs)
 
@@ -27,7 +29,9 @@ class pornSpider(CrawlSpider):
 		link['link'] = response.url
 		link['is_porn'] = self.is_porn(response)
 		link['depth'] = response.meta['depth']
+		link['previous_url'] = response.meta['previous_url']
 		return link
+
 
 	def is_porn(self, response):
 		score = 0
@@ -35,14 +39,3 @@ class pornSpider(CrawlSpider):
 			if keyword in response.url.lower():
 				return True
 		return False
-
-	def filtration(self, links):
-		other_links = []
-		for index, element in enumerate(links):
-			follow = True
-			for i, el in enumerate(pornSpider.banned_frags):
-				if el  in element.url:
-					follow = False
-			if follow:
-				other_links.append(element)
-		return other_links

@@ -13,12 +13,13 @@ BOT_NAME = 'pornDistance'
 
 SPIDER_MODULES = ['pornDistance.spiders']
 NEWSPIDER_MODULE = 'pornDistance.spiders'
-#DEPTH_PRIORITY = 1
-#SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
-#SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
 SPIDER_MIDDLEWARES = {
-	'scrapy.contrib.spidermiddleware.depth.DepthMiddleware': 36,
-	'scrapy.contrib.downloadermiddleware.ajaxcrawl.AjaxCrawlMiddleware' : 28
+	'scrapy.contrib.spidermiddleware.depth.DepthMiddleware': 42,
+	'scrapy.contrib.downloadermiddleware.ajaxcrawl.AjaxCrawlMiddleware' : 28,
+	'pornDistance.editRequest.editRequest' : 36
 }
 DOWNLOADER_MIDDLEWARES = {
 #	'scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware': 300
@@ -33,6 +34,9 @@ AJAXCRAWL_ENABLED = True
 REDIRECT_ENABLED = True
 COOKIES_ENABLED = False
 REDIRECT_MAX_TIMES = 5
+ITEM_PIPELINES = (
+	'pornDistance.pipelines.Neo4jPipeline',
+)
 
 EXTENSIONS = {
 	'scrapy.contrib.closespider.CloseSpider' : 35
