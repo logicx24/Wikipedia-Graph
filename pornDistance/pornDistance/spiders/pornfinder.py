@@ -6,9 +6,9 @@ from pornDistance.items import FoundLink
 import re
 from scrapy.http import Request
 
-class pornSpider(CrawlSpider):
-	name = 'porn_finder'
-	banned_frags = ['facebook','twitter','rackspace','linkedin','addictivetips','lifehacker','crunchbase','microsoft','youtube']
+class webMapper(CrawlSpider):
+	name = 'webMapper'
+	banned_frags = ['facebook','twitter','rackspace','linkedin','addictivetips','lifehacker','crunchbase','microsoft','youtube','RecentChangesLinked','Talk', 'Special:', 'Category:','Wikipedia:','Portal:','Help:']
 	porn_urls = ['youporn','redtube','xxvideos','xx','fuck','sex','pornhub','xxhamster','hamster','tube8','tube','porn','lube','cunt','booty','nude','sluts','xvideos','slut','anal','bitch','whore','fap']
 	
 	def __init__(self, base_url, *args, **kwargs):
@@ -18,9 +18,9 @@ class pornSpider(CrawlSpider):
 		self._compile_rules()
 		
 		self.rules = (
-			Rule(LinkExtractor(deny=pornSpider.banned_frags), callback=self.parse_item, follow=True),
+			Rule(LinkExtractor(allow='en.wikipedia.org/wiki/', deny=webMapper.banned_frags), callback=self.parse_item, follow=True),
 		)
-		super(pornSpider, self).__init__(*args, **kwargs)
+		super(webMapper, self).__init__(*args, **kwargs)
 
 	def parse_item(self, response):
 		# if self.base_url in response.url:
@@ -35,7 +35,7 @@ class pornSpider(CrawlSpider):
 
 	def is_porn(self, response):
 		score = 0
-		for keyword in pornSpider.porn_urls:
+		for keyword in webMapper.porn_urls:
 			if keyword in response.url.lower():
 				return True
 		return False

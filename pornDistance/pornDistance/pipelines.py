@@ -9,7 +9,7 @@
 #connection = neo4j.connect("http://localhost:7474")
 
 
-class PorndistancePipeline(object):
+class Neo4jPipeline(object):
     def process_item(self, item, spider):
         return item
 
