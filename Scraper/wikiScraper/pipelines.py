@@ -24,20 +24,22 @@ class DBPipeline(object):
 		url_doc = self.collection.find_one({'link': item['previous_url']})
 		found_doc = self.collection.find_one({'link': item['link']})
 		
-		if found_doc == None:
-			if url_doc == None:
-				item['previous_url'] = None
-			else:
-				if isinstance(item['previous_url'], list):
-					item['previous_url'].append(url_doc['_id'])
+		if not found_doc:
+			item = dict(item)
+			item['points_to'] = []
+			insertedId = self.collection.insert(item)
+			if url_doc:
+				if isinstance(url_doc['points_to'], list):
+					url_doc['points_to'].append(insertedId)
 				else:
-					item['previous_url'] = [url_doc['_id']]
-			self.collection.insert(dict(item))
+					url_doc['points_to'] = [insertedId]
+				self.collection.save(url_doc)
 
 		else:
-			if url_doc['_id'] != None and url_doc['_id'] not in found_doc['previous_url']:
-				found_doc['previous_url'].append(url_doc['_id'])
-				self.collection.save(found_doc)
+			if url_doc['points_to'] and found_doc['_id'] not in url_doc['points_to']:
+				#found_doc['previous_url'].append(url_doc['_id'])
+				url_doc['points_to'].append(found_doc['_id'])
+				self.collection.save(url_doc)
 		return item
 
     #build out basic neo4j script to insert from mongo to neo4j, preserving the link relationships.
