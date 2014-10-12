@@ -11,11 +11,15 @@
 
 BOT_NAME = 'pornDistance'
 
+MONGODB_SERVER = 'localhost'
+MONGODB_PORT = 27017
+
+
 SPIDER_MODULES = ['pornDistance.spiders']
 NEWSPIDER_MODULE = 'pornDistance.spiders'
-#DEPTH_PRIORITY = 1
-#SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
-#SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
 SPIDER_MIDDLEWARES = {
 	'scrapy.contrib.spidermiddleware.depth.DepthMiddleware': 42,
 	'scrapy.contrib.downloadermiddleware.ajaxcrawl.AjaxCrawlMiddleware' : 28,
@@ -36,7 +40,7 @@ REDIRECT_ENABLED = True
 COOKIES_ENABLED = False
 REDIRECT_MAX_TIMES = 5
 ITEM_PIPELINES = (
-	'pornDistance.pipelines.Neo4jPipeline',
+	'pornDistance.pipelines.DBPipeline',
 )
 
 EXTENSIONS = {

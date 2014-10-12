@@ -27,7 +27,6 @@ class webMapper(CrawlSpider):
 		# 	response.meta['depth'] -= 1
 		link = FoundLink()
 		link['link'] = response.url
-		link['is_porn'] = self.is_porn(response)
 		link['depth'] = response.meta['depth']
 		link['previous_url'] = response.meta['previous_url']
 		return link

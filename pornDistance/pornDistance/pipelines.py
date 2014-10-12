@@ -8,10 +8,30 @@
 #import neo4j
 #connection = neo4j.connect("http://localhost:7474")
 
+import pymongo
+from scrapy.conf import settings
 
-class Neo4jPipeline(object):
-    def process_item(self, item, spider):
-        return item
+class DBPipeline(object):
+
+	def __init__(self):
+		self.server = settings['MONGODB_SERVER']
+		self.port = settings['MONGODB_PORT']
+		self.client = pymongo.MongoClient(self.server, self.port)
+		self.db = self.client['scraped_items']
+		self.collection = self.db['wikipedia_links']
+
+
+	def process_item(self, item, spider):
+		url_doc = self.collection.find_one({'link': item['previous_url']})
+		if url_doc == None:
+			item['previous_url'] = None
+		else:
+			if isinstance(item['previous_url'], list):
+				item['previous_url'].append(url_doc['_id'])
+			else:
+				item['previous_url'] = [url_doc['_id']]
+		self.collection.insert(dict(item))
+		return item
 
     #build out basic neo4j pipeline
     #add cassandra backend to store graph ids.

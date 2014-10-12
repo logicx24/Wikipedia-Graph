@@ -12,6 +12,5 @@ class FoundLink(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     link = scrapy.Field()
-    is_porn = scrapy.Field()
     depth = scrapy.Field()
     previous_url = scrapy.Field()
