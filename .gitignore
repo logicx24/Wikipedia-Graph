@@ -2,3 +2,4 @@
 .webloc
 *.sublime-workspace
 *.pyc
+*.json
