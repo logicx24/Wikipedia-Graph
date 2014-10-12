@@ -1,6 +1,5 @@
 from scrapy.http import Request
 
-
 class editRequest(object):
 	def process_spider_output(self, response, result, spider):
 		def add_field(request):

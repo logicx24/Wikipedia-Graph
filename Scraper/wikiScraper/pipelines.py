@@ -20,7 +20,6 @@ class DBPipeline(object):
 		self.db = self.client['scraped_items']
 		self.collection = self.db['wikipedia_links']
 
-
 	def process_item(self, item, spider):
 		url_doc = self.collection.find_one({'link': item['previous_url']})
 		found_doc = self.collection.find_one({'link': item['link']})
@@ -41,6 +40,5 @@ class DBPipeline(object):
 				self.collection.save(found_doc)
 		return item
 
-    #build out basic neo4j pipeline
-    #add cassandra backend to store graph ids.
+    #build out basic neo4j script to insert from mongo to neo4j, preserving the link relationships.
     #then, assemble graph, and then start to implement algorithhms

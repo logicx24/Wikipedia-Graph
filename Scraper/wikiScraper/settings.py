@@ -9,21 +9,21 @@
 #
 #import scrapy
 
-BOT_NAME = 'pornDistance'
+BOT_NAME = 'wikiScraper'
 
 MONGODB_SERVER = 'localhost'
 MONGODB_PORT = 27017
 
 
-SPIDER_MODULES = ['pornDistance.spiders']
-NEWSPIDER_MODULE = 'pornDistance.spiders'
+SPIDER_MODULES = ['wikiScraper.spiders']
+NEWSPIDER_MODULE = 'wikiScraper.spiders'
 DEPTH_PRIORITY = 1
 SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
 SPIDER_MIDDLEWARES = {
 	'scrapy.contrib.spidermiddleware.depth.DepthMiddleware': 42,
 	'scrapy.contrib.downloadermiddleware.ajaxcrawl.AjaxCrawlMiddleware' : 28,
-	'pornDistance.editRequest.editRequest' : 36
+	'wikiScraper.editRequest.editRequest' : 36
 }
 DOWNLOADER_MIDDLEWARES = {
 #	'scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware': 300
@@ -40,7 +40,7 @@ REDIRECT_ENABLED = True
 COOKIES_ENABLED = False
 REDIRECT_MAX_TIMES = 5
 ITEM_PIPELINES = (
-	'pornDistance.pipelines.DBPipeline',
+	'wikiScraper.pipelines.DBPipeline',
 )
 
 EXTENSIONS = {
