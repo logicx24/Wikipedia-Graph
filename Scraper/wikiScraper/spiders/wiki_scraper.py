@@ -9,13 +9,14 @@ from scrapy.http import Request
 class webMapper(CrawlSpider):
 
 	name = 'webMapper'
-	banned_frags = ['Category:','Portal:','Special:','Wikipedia:','Help:']
+	banned_frags = ['Category:','Portal:','Special:','Wikipedia:','Help:','Template:']
 	
 	def __init__(self, base_url, *args, **kwargs):
 		self.base_url = base_url
 		self.start_urls = []
 		self.start_urls.append(self.base_url)
 		self._compile_rules()
+		#webMapper.banned_frags.append(self.base_url)
 		
 		self.rules = (
 			Rule(LinkExtractor(allow='en.wikipedia.org/wiki/', deny=webMapper.banned_frags), callback=self.parse_item, follow=True),

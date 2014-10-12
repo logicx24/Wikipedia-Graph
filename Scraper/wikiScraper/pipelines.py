@@ -5,9 +5,6 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-#import neo4j
-#connection = neo4j.connect("http://localhost:7474")
-
 import pymongo
 from scrapy.conf import settings
 
