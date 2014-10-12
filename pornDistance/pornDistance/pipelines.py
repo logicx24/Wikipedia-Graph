@@ -23,14 +23,22 @@ class DBPipeline(object):
 
 	def process_item(self, item, spider):
 		url_doc = self.collection.find_one({'link': item['previous_url']})
-		if url_doc == None:
-			item['previous_url'] = None
-		else:
-			if isinstance(item['previous_url'], list):
-				item['previous_url'].append(url_doc['_id'])
+		found_doc = self.collection.find_one({'link': item['link']})
+		
+		if found_doc == None:
+			if url_doc == None:
+				item['previous_url'] = None
 			else:
-				item['previous_url'] = [url_doc['_id']]
-		self.collection.insert(dict(item))
+				if isinstance(item['previous_url'], list):
+					item['previous_url'].append(url_doc['_id'])
+				else:
+					item['previous_url'] = [url_doc['_id']]
+			self.collection.insert(dict(item))
+
+		else:
+			if url_doc['_id'] != None and url_doc['_id'] not in found_doc['previous_url']:
+				found_doc['previous_url'].append(url_doc['_id'])
+				self.collection.save(found_doc)
 		return item
 
     #build out basic neo4j pipeline
