@@ -24,6 +24,9 @@ class DBPipeline(object):
 		if not found_doc:
 			item = dict(item)
 			item['points_to'] = []
+			item['pointed_from'] = []
+			if url_doc:
+				item['pointed_from'].append(url_doc['_id'])
 			insertedId = self.collection.insert(item)
 			if url_doc:
 				if isinstance(url_doc['points_to'], list):
@@ -31,11 +34,11 @@ class DBPipeline(object):
 				else:
 					url_doc['points_to'] = [insertedId]
 				self.collection.save(url_doc)
-
 		else:
-			if url_doc['points_to'] and found_doc['_id'] not in url_doc['points_to']:
-				#found_doc['previous_url'].append(url_doc['_id'])
+			if url_doc['points_to'] and found_doc['pointed_from'] and found_doc['_id'] not in url_doc['points_to'] and url_doc['_id'] not in found_doc['pointed_from']:
 				url_doc['points_to'].append(found_doc['_id'])
+				found_doc['pointed_from'].append(url_doc['_id'])
+				self.collection.save(found_doc)
 				self.collection.save(url_doc)
 		return item
 
